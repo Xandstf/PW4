@@ -1,0 +1,17 @@
+{
+  "admin": {
+    "nome": "Administrador do sistema",
+    "senha": "admin",
+    "permissao": "ADM"
+  },
+  "editor": {
+    "nome": "Editor do sistema",
+    "senha": "editor",
+    "permissao": "EDT"
+  },
+  "visitante": {
+    "nome": "Visitante do sistema",
+    "senha": "visitante",
+    "permissao": "VST"
+  }
+}

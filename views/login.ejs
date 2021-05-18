@@ -9,10 +9,67 @@
         <!-- Add icon library -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
         <!-- My Styles.css-->
+        <link rel="stylesheet" href="css/styles.css">
         <link rel="stylesheet" href="css/loginStyle.css">
+
     </head>
     <body>
-        <h1>Login</h1>
+        <!-- Data recived -->
+        <div id="dataRecived" style="display: none;">
+            <% if (status) { %>
+                <%= status %>
+            <% } %>
+        </div>
+        <!-- End data recived -->
+
+        <div class="container">
+            <div class="row">
+                <div class="col-6 cardBody">
+                    <div class="loginCard">
+                        <div class="loginHeaderText"><img src="./img/bookLogo.png" width="40px" style="margin-right: 10px; margin-top: -5px">LIVRO DE RECEITAS</div>
+                        <div class="loginOption">
+                            <button class="btn btn-dark btnLogin btnEntrar" onclick="toogleOptionLogin('entrar')">ENTRAR</button>
+                            <button class="btn btn-dark btnLogin btnCadastro" onclick="toogleOptionLogin('cadastrar')">CADASTRAR</button>
+                        </div>
+                        <!-- Login Section -->
+                        <form action="autenticar" method="POST">
+                            <div class="loginSection">
+                                <p id="errorTextLogin"></p>
+                                <input name="usuario" class="inputLogin inputUsuario" type="text" placeholder="Usuário">
+                                <input name="senha" class="inputLogin inputSenha" type="password" placeholder="Senha">
+                                <button class="btn btn-dark btnFormLogin">LOGIN</button>
+                                <a class="loginForgotPassword" onclick="toogleOptionLogin('senha')"><p>Esqueceu sua senha?</p></a>
+                            </div>
+                        </form>
+                        <!-- Cadastro Section -->
+                        <form action="cadastrar" method="POST">
+                            <div class="cadastroSection">
+                                <p id="errorTextCadastro"></p>
+                                <input name="nome" class="inputLogin inputCadastroUsuario" type="text" placeholder="Nome">
+                                <input name="usuario" class="inputLogin" type="text" placeholder="Usuário">
+                                <input name="senha" class="inputLogin" type="password" placeholder="Senha">
+                                <button class="btn btn-dark btnFormLogin">CADASTRAR</button>
+                            </div>
+                        </form>
+                        <!-- Senha Section -->
+                        <div class="senhaSection">
+                            <p class="infoText">Preencha os campos para recuperar sua senha!</p>
+                            <input name="usuario" class="inputLogin" type="text" placeholder="Usuário">
+                            <input name="email" class="inputLogin" type="text" placeholder="Email">
+                            <button class="btn btn-dark btnFormLogin" onclick="toogleOptionLogin('email')">ENVIAR E-MAIL</button>
+                        </div>
+                        <!-- Email Section -->
+                        <div class="emailSection">
+                            <i class="fas fa-envelope iconeEmail"></i>
+                            <p class="infoText">
+                                Verifique sua caixa de entrada e responda as perguntas para darmos início a recuperação da sua senha.
+                            </p>
+                            <button class="btn btn-dark btnFormLogin" onclick="toogleOptionLogin('entrar')">VOLTAR</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- My scripts -->
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -22,3 +79,4 @@
         <!-- End My scripts -->
     </body>
 </html>
+
