@@ -1,5 +1,6 @@
 //Ligando servidor
 var express = require("express");
+var i18n = require("i18n");
 const path = require('path');
 var app = express();
 var porta = 80;
@@ -15,6 +16,14 @@ const dbUsuarios = low(adapterUsuarios);
 //Usuário atual (Permissão e Nome)
 var USUARIO_PERMISSAO_ATUAL = '';
 var USUARIO_NOME_ATUAL = '';
+
+i18n.configure({
+    locales: ["pt", "en"],
+    directory: __dirname+"/locais",
+    cookie: "receitas"
+});
+
+app.use(i18n.init);
 
 app.use(express.urlencoded({
     extended: true
@@ -40,6 +49,7 @@ app.get("/", function (req, res){
         res.render('login', {status: 'existente'});
     }
 });
+
 app.post("/autenticar", function (req, res){
     //Variáveis
     var usuario = req.body.usuario;
@@ -50,7 +60,8 @@ app.post("/autenticar", function (req, res){
         if(dbUsuarios.getState()[usuario]["senha"] == senha){//Sucesso
             USUARIO_PERMISSAO_ATUAL = dbUsuarios.getState()[usuario]["permissao"];
             USUARIO_NOME_ATUAL = dbUsuarios.getState()[usuario]["nome"];
-            res.render('receitas', {nomeUsuario: USUARIO_NOME_ATUAL, permissaoUsuario: USUARIO_PERMISSAO_ATUAL});
+            titulo = res.__("titlePagInicial");
+            res.render('receitas', {nomeUsuario: USUARIO_NOME_ATUAL, permissaoUsuario: USUARIO_PERMISSAO_ATUAL, titulo: titulo});
         }else{//Senha incorreta
             USUARIO_PERMISSAO_ATUAL = 'senhaIncorreta';
             res.redirect("/");
@@ -60,6 +71,7 @@ app.post("/autenticar", function (req, res){
         res.redirect("/");
     }
 });
+
 app.post("/cadastrar", function (req, res){
     //Variáveis
     var nome = req.body.nome;
@@ -83,7 +95,7 @@ app.post("/cadastrar", function (req, res){
     }
 });
 
-//Rotas sistema
+//Visualizar todas as receitas
 app.get("/receitas", function (req, res){
     //Set formato do formato das views
     app.engine('.ejs', require('ejs').__express);
@@ -93,8 +105,73 @@ app.get("/receitas", function (req, res){
     if(USUARIO_PERMISSAO_ATUAL == ''){
         res.redirect("/");
     }else{
-        //Passando informações do usuário
-        res.render('receitas', {nomeUsuario: USUARIO_NOME_ATUAL, permissaoUsuario: USUARIO_PERMISSAO_ATUAL});
+        //Passando informações
+        titulo = res.__("titlePagReceitas");
+        res.render('receitas', {nomeUsuario: USUARIO_NOME_ATUAL, permissaoUsuario: USUARIO_PERMISSAO_ATUAL, titulo: titulo});
+    }
+});
+
+//Adicionar uma receita
+app.put("/receitas", function (req, res){
+    //Set formato do formato das views
+    app.engine('.ejs', require('ejs').__express);
+    app.set('view engine', 'ejs')
+
+    //Valida login
+    if(USUARIO_PERMISSAO_ATUAL == ''){
+        res.redirect("/");
+    }else{
+        //Passando informações
+        titulo = res.__("titlePagAddReceita");
+        res.render('infoReceita', {nomeUsuario: USUARIO_NOME_ATUAL, permissaoUsuario: USUARIO_PERMISSAO_ATUAL, titulo: titulo, acao: "add"});
+    }
+});
+
+//Visualizar uma receita
+app.get("/receitas/:nomeReceita", function (req, res){
+    //Set formato do formato das views
+    app.engine('.ejs', require('ejs').__express);
+    app.set('view engine', 'ejs')
+
+    //Valida login
+    if(USUARIO_PERMISSAO_ATUAL == ''){
+        res.redirect("/");
+    }else{
+        //Passando informações
+        titulo = req.params.nomeReceita;
+        res.render('receitas', {nomeUsuario: USUARIO_NOME_ATUAL, permissaoUsuario: USUARIO_PERMISSAO_ATUAL, titulo: titulo});
+    }
+});
+
+//Editar uma receita
+app.put("/receitas/:nomeReceita", function (req, res){
+    //Set formato do formato das views
+    app.engine('.ejs', require('ejs').__express);
+    app.set('view engine', 'ejs')
+
+    //Valida login
+    if(USUARIO_PERMISSAO_ATUAL == ''){
+        res.redirect("/");
+    }else{
+        //Passando informações
+        titulo = res.__("titlePagEditarReceita") + req.params.nomeReceita;
+        res.render('infoReceita', {nomeUsuario: USUARIO_NOME_ATUAL, permissaoUsuario: USUARIO_PERMISSAO_ATUAL, titulo:  titulo, acao: "edit"});
+    }
+});
+
+//Excluir uma receita
+app.delete("/receitas/:nomeReceita", function (req, res){
+    //Set formato do formato das views
+    app.engine('.ejs', require('ejs').__express);
+    app.set('view engine', 'ejs')
+
+    //Valida login
+    if(USUARIO_PERMISSAO_ATUAL == ''){
+        res.redirect("/");
+    }else{
+        //Passando informações
+        titulo = res.__("titlePagExcluirReceita") + req.params.nomeReceita;
+        res.render('receitas', {nomeUsuario: USUARIO_NOME_ATUAL, permissaoUsuario: USUARIO_PERMISSAO_ATUAL, titulo: titulo});
     }
 });
 
