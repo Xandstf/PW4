@@ -1,0 +1,108 @@
+
+body{
+    background-color: transparent;
+}
+
+html{
+    background-image:
+    linear-gradient(to bottom, #fff2cebd, #fff2cebd),
+    url("../img/loginBackground.jpeg");
+    background-color: var(--cor-secundaria); 
+    height: 100vh;
+    background-position: center; 
+    background-size: cover;
+}
+
+.title {
+    text-align: center;
+    background-color: #fff2cebd;
+    font-size: 40px;
+}
+
+.App {
+    background-color:  #f0d794bd;
+    display: flex;
+    height: auto;
+    width: auto;
+    min-width: 300px;
+    flex-wrap: wrap;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+}
+
+.App button {
+    display: block;
+    background-color: white;
+    width: 100%;
+   padding: 20px;
+    text-align: center;
+    margin: 20px;
+    border-radius: 20px;
+    color: black;
+    transition: all linear 200ms;
+    border: 0;
+    cursor: pointer;
+}
+
+.App .welcome-message {
+    text-align: center;
+}
+
+.App button a {
+    text-align: center;
+    color: inherit;
+    font-size: 24px;
+   
+    text-decoration: none;
+}
+
+.App button:hover {
+    background-color: tomato;
+    color: white;
+}
+
+.App button.VST {
+    display: none;
+}
+
+.App .section-title {
+    width: 100%;
+    text-align: center;
+}
+
+.receitas {
+    display: grid;
+    flex-wrap: wrap;
+    min-width: 500px;
+    max-width:calc(100% - 100px);
+    grid-template-columns: repeat(5, 1fr);
+}
+
+.receitas .receita {
+    background-color: transparent;
+    margin: 0;
+    border-radius: 0;
+}
+
+.receitas .receita a{
+   font-size: 16px;
+}
+
+.App .receita-body {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    max-width: calc(100% - 300px);
+    
+    margin-bottom: 20px;
+    gap: 20px;
+}
+
+.App .receita-body .secao {
+   background-color: white;
+   padding: 20px;
+}
+
+.App button.back-button {
+    max-width: 300px;
+}
